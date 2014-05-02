@@ -1,0 +1,14 @@
+{
+  "name": "next.enchant.js",
+  "version": "0.0.1",
+  "description": "Extended enchant.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "akai_inu",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.4"
+  }
+}
