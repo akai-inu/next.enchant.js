@@ -6,9 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akai-inu/next.enchant.js.git"
+  },
   "author": "akai_inu",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akai-inu/next.enchant.js/issues"
+  },
   "devDependencies": {
-    "grunt": "^0.4.4"
+    "grunt": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-copy": "*"
   }
 }
