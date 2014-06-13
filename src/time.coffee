@@ -60,3 +60,11 @@ enchant.next.Time = enchant.Class.create enchant.Node,
 		return
 	now: ->
 		@now
+
+enchant.next.Time.singleton = (fps = -1, updateInterval = -1) ->
+	if fps > 0
+		enchant.next.Time._instance = new enchant.next.Time fps, updateInterval
+	else if !enchant.next.Time._instance?
+		enchant.next.Time._instance = new enchant.next.Time()
+
+	return enchant.next.Time._instance

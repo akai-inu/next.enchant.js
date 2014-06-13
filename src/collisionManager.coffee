@@ -123,3 +123,9 @@ enchant.next.CollisionManager = enchant.Class.create
 
 	getLength2: (a) ->
 		@getDot a, a
+
+enchant.next.CollisionManager.singleton = ->
+	if !enchant.next.CollisionManager._instance?
+		enchant.next.CollisionManager._instance = new enchant.next.CollisionManager()
+
+	return enchant.next.CollisionManager._instance

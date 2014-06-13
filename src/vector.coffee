@@ -41,6 +41,9 @@ enchant.next.Vector = enchant.Class.create
 			@_isDirtyDeg = false
 		@_degree
 
+	toString: ->
+		return @x + ", " + @y
+
 # Class Method
 enchant.next.Vector.toRad = 0.017453292
 enchant.next.Vector.getRadian = (degree) ->
@@ -49,3 +52,11 @@ enchant.next.Vector.getRadian = (degree) ->
 enchant.next.Vector.toDeg = 57.29577951
 enchant.next.Vector.getDegree = (radian) ->
 	return radian * 57.29577951
+
+enchant.next.Vector.getForward = (degree) ->
+	radian = enchant.next.Vector.getRadian degree
+	return new Vector Math.cos(radian), Math.sin(radian)
+
+enchant.next.Vector.getLeft = (degree) ->
+	radian = enchant.next.Vector.getRadian(degree - 90)
+	return new Vector Math.cos(radian), Math.sin(radian)
