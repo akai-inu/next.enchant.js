@@ -16,6 +16,9 @@ enchant.next.CollisionManager = enchant.Class.create
 			i++
 		return false
 
+	###
+	# It must be called at Scene.onenterframe!
+	###
 	onenterframe: ->
 		deleteArray = []
 
@@ -24,24 +27,27 @@ enchant.next.CollisionManager = enchant.Class.create
 			while j++ < @colliders.length
 				obj2 = @colliders[j]
 
-				if obj1.name isnt obj2.name && obj1.enabled && obj2.enabled && !obj1.willDelete && !obj2.willDelete && @hasCollide obj1, obj2
+				if obj1.enabled and obj2.enabled and !obj1.willDelete() and !obj2.willDelete() and @hasCollide obj1, obj2
 					deleteArray.push obj1 if obj1.onCollide obj2
 					deleteArray.push obj2 if obj2.onCollide obj1
 
-		for i in deleteArray
-			@removeCollider i
+		for collider in deleteArray
+			@removeCollider collider
 
 		return @
 
 	hasCollide: (obj1, obj2) ->
 		if obj1.collideType == obj2.collideType == "rect"
+			# rectangle and rectangle
 			return obj1.intersect obj2
 		else if obj1.collideType isnt obj2.collideType
+			# rectangle and arc
 			if obj1.collideType == "rect"
 				return @collideRectArc obj1, obj2
 			else
 				return @collideRectArc obj2, obj1
 		else
+			# arc and arc
 			return obj1.within obj2
 
 	collideRectArc: (rect, arc) ->
@@ -123,9 +129,3 @@ enchant.next.CollisionManager = enchant.Class.create
 
 	getLength2: (a) ->
 		@getDot a, a
-
-enchant.next.CollisionManager.singleton = ->
-	if !enchant.next.CollisionManager._instance?
-		enchant.next.CollisionManager._instance = new enchant.next.CollisionManager()
-
-	return enchant.next.CollisionManager._instance

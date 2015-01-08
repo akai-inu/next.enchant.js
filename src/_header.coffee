@@ -19,4 +19,11 @@
 #   enchant('next');
 #
 ###
+
+# It needs enchant.js
+throw 'next.enchant.js needs enchant.js.' if not enchant
+
+# It needs underscore.js
+throw 'next.enchant.js needs underscore.js.' if not _
+
 enchant.next = {}

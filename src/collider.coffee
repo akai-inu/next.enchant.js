@@ -1,19 +1,23 @@
 enchant.next.Collider = enchant.Class.create enchant.Entity,
-	initialize: (@parent, @name, @collideType = "arc", @onCollide = -> false) ->
+	initialize: (@parent, @collideType = enchant.next.Collider.TYPE_DEFAULT) ->
+		enchant.Entity.call @
 		@enabled = true
-		@willDelete = false
 		@width = @parent.width
 		@height = @parent.height
 
 		if DEBUG
 			switch @collideType
-				when "rect"
+				when enchant.next.Collider.TYPE_RECT
+					# 四角形の判定を描画
 					surface = new Surface @width, @height
 					c = surface.context
 					c.beginPath()
 					c.rect 0, 0, @width, @height
+					x = 0
+					y = 0
 					break
 				else
+					# 円の判定を描画
 					radius = Math.max(@width, @height) / 2
 					surface = new Surface radius * 2, radius * 2
 					c = surface.context
@@ -26,8 +30,28 @@ enchant.next.Collider = enchant.Class.create enchant.Entity,
 			c.lineWidth = 1
 			c.stroke()
 
-			@line = new Sprite surface.width, surface.height
+			@line = new enchant.Sprite surface.width, surface.height
 			@line.image = surface
 			@line.x = x
 			@line.y = y
 			@parent.addChild @line
+
+	###
+	# It calls when detected collision
+	#
+	# @return		bool		delete flag
+	###
+	onCollide: (against) ->
+		false
+
+	###
+	# Get it will delete in this frame
+	#
+	# @return		bool		delete flag
+	###
+	willDelete: ->
+		false
+
+enchant.next.Collider.TYPE_RECT = 'rect'
+enchant.next.Collider.TYPE_ARC = 'arc'
+enchant.next.Collider.TYPE_DEFAULT = enchant.next.Collider.TYPE_ARC

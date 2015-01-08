@@ -10,10 +10,8 @@
 # updateInterval = Update interval for average FPS
 ###
 enchant.next.Time = enchant.Class.create enchant.Node,
-	initialize: (fps, updateInterval) ->
+	initialize: (scene, @fps = 30, @updateInterval = 0.5) ->
 		enchant.Node.call @
-		@fps = fps ? 30 # target FPS
-		@updateInterval = updateInterval ? 0.5 # Average FPS Interval(sec)
 		@startTime = performance.now() # Class start base time
 		@now = 0.0 # total elapsed ms(exact)
 		@prevTime = 0.0 # prev frame time
@@ -25,14 +23,18 @@ enchant.next.Time = enchant.Class.create enchant.Node,
 		@isSlowly = false
 
 		# calculate fps by Simple Moving Average
-		@elapsedArray = []
+		@avg = new enchant.next.SimpleMovingAverage fps
 		@averageFps = 0
-		@totalElapsed = 0
 		@totalElapsedms = 0
 		@totalElapsedsec = 0.0
 
 		@onenterframe()
+
+		scene.addChild @
 		return
+
+
+
 	onenterframe: ->
 		@frame++
 		@now = performance.now() - @startTime
@@ -46,25 +48,15 @@ enchant.next.Time = enchant.Class.create enchant.Node,
 
 		@totalElapsedms = Math.floor @now
 		@totalElapsedsec = @totalElapsedms * 0.001
-		@elapsedArray.push Math.round @elapsedms
-		@totalElapsed += Math.round @elapsedms
+		@avg.add Math.round @elapsedms
 
-		# delete old data
-		if @elapsedArray.length > @fps
-			@totalElapsed -= @elapsedArray.shift()
-
-		# get average FPS at 0.5 sec interval
-		if @frame % (@fps * @updateInterval) == 0 && @elapsedArray.length > 0
-			@averageFps = (1000 / (@totalElapsed / @elapsedArray.length)).toFixed 3
+		# update average FPS at updateInterval
+		if @frame % Math.round(@fps * @updateInterval) is 0
+			@averageFps = (1000 / @avg.getAverage()).toFixed 2
 
 		return
+
+
+
 	now: ->
 		@now
-
-enchant.next.Time.singleton = (fps = -1, updateInterval = -1) ->
-	if fps > 0
-		enchant.next.Time._instance = new enchant.next.Time fps, updateInterval
-	else if !enchant.next.Time._instance?
-		enchant.next.Time._instance = new enchant.next.Time()
-
-	return enchant.next.Time._instance

@@ -1,0 +1,1 @@
+../build/next.enchant.js
