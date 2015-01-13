@@ -1,0 +1,27 @@
+{
+  "name": "next.enchant.js",
+  "version": "0.0.3",
+  "authors": [
+    "akai_inu <akai_inu@live.jp>"
+  ],
+  "description": "Useful plugin functions for enchant.js",
+  "main": "build/next.enchant.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "enchant.js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "enchant.js-builds": "~1.8.2",
+    "underscore": "~1.7.0"
+  }
+}

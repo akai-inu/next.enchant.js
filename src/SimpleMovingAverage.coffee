@@ -10,6 +10,9 @@ enchant.next.SimpleMovingAverage = enchant.Class.create
 
 
 
+	###
+	# add new value
+	###
 	add: (val) ->
 		val = Math.round val
 		@_dataList.push val
@@ -21,12 +24,18 @@ enchant.next.SimpleMovingAverage = enchant.Class.create
 
 
 
+	###
+	# reset values
+	###
 	reset: ->
 		@_dataList = []
 		@_total = 0
 
 
 
+	###
+	# get average
+	###
 	getAverage: ->
 		return 0 if @_dataList.length is 0
 		return @_total / @_dataList.length
