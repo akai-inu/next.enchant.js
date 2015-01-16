@@ -17,7 +17,7 @@ if !Math.lerp
 if !Math.toDegree
 	(->
 		toDegreeVal = Math.PI / 180.0
-		Math.toDegree (val) ->
+		Math.toDegree = (val) ->
 			val * toDegreeVal
 	)()
 

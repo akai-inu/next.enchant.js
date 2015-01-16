@@ -457,9 +457,9 @@ if (!Math.toDegree) {
   (function() {
     var toDegreeVal;
     toDegreeVal = Math.PI / 180.0;
-    return Math.toDegree(function(val) {
+    return Math.toDegree = function(val) {
       return val * toDegreeVal;
-    });
+    };
   })();
 }
 
