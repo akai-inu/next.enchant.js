@@ -4,11 +4,11 @@ if !Math.clamp
 
 if !Math.within
 	Math.within = (val, min, max) ->
-		if min <= val and val <= max
+		min <= val and val <= max
 
 if !Math.without
 	Math.without = (val, min, max) ->
-		if val < min or max < val
+		val < min or max < val
 
 if !Math.lerp
 	Math.lerp = (val, start, end) ->

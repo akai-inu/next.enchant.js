@@ -20,6 +20,8 @@
  *   enchant('next');
  *
  */
+var MOUSEX, MOUSEY;
+
 if (!enchant) {
   throw 'next.enchant.js needs enchant.js.';
 }
@@ -100,6 +102,10 @@ enchant.next.SimpleMovingAverage = enchant.Class.create({
     this.maxLength = maxLength != null ? maxLength : 100;
     return this.reset();
   },
+
+  /*
+  	 * add new value
+   */
   add: function(val) {
     var remove;
     val = Math.round(val);
@@ -110,10 +116,18 @@ enchant.next.SimpleMovingAverage = enchant.Class.create({
       return this._total -= remove;
     }
   },
+
+  /*
+  	 * reset values
+   */
   reset: function() {
     this._dataList = [];
     return this._total = 0;
   },
+
+  /*
+  	 * get average
+   */
   getAverage: function() {
     if (this._dataList.length === 0) {
       return 0;
@@ -185,7 +199,7 @@ enchant.next.Collider = enchant.Class.create(enchant.Entity, {
     this.enabled = true;
     this.width = this.parent.width;
     this.height = this.parent.height;
-    if (DEBUG) {
+    if ((typeof DEBUG !== "undefined" && DEBUG !== null) && DEBUG) {
       switch (this.collideType) {
         case enchant.next.Collider.TYPE_RECT:
           surface = new Surface(this.width, this.height);
@@ -407,6 +421,91 @@ enchant.next.CollisionManager = enchant.Class.create({
   getLength2: function(a) {
     return this.getDot(a, a);
   }
+});
+
+if (!Math.clamp) {
+  Math.clamp = function(val, min, max) {
+    if (val > max) {
+      return max;
+    } else if (val < min) {
+      return min;
+    } else {
+      return val;
+    }
+  };
+}
+
+if (!Math.within) {
+  Math.within = function(val, min, max) {
+    return min <= val && val <= max;
+  };
+}
+
+if (!Math.without) {
+  Math.without = function(val, min, max) {
+    return val < min || max < val;
+  };
+}
+
+if (!Math.lerp) {
+  Math.lerp = function(val, start, end) {
+    return (end - start) * Math.clamp(val, 0.0, 1.0) + start;
+  };
+}
+
+if (!Math.toDegree) {
+  (function() {
+    var toDegreeVal;
+    toDegreeVal = Math.PI / 180.0;
+    return Math.toDegree(function(val) {
+      return val * toDegreeVal;
+    });
+  })();
+}
+
+if (!Math.toRadian) {
+  (function() {
+    var toRadianVal;
+    toRadianVal = 180.0 / Math.PI;
+    return Math.toRadian = function(val) {
+      return val * toRadianVal;
+    };
+  })();
+}
+
+if (!Math.distance) {
+  Math.distance = function(x1, y1, x2, y2) {
+    var x, y;
+    x = x1 - x2;
+    y = y1 - y2;
+    return Math.sqrt(x * x + y * y);
+  };
+  Math.distanceObj = function(p1, p2) {
+    return Math.distance(p1.x, p1.y, p2.x, p2.y);
+  };
+}
+
+if (!Math.distance2) {
+  Math.distance2 = function(x1, y1, x2, y2) {
+    var x, y;
+    x = x1 - x2;
+    y = y1 - y2;
+    return x * x + y * y;
+  };
+  Math.distance2Obj = function(p1, p2) {
+    return Math.distance2(p1.x, p1.y, p2.x, p2.y);
+  };
+}
+
+MOUSEX = 0;
+
+MOUSEY = 0;
+
+document.addEventListener('load', function() {
+  return document.getElementById('enchant-stage').addEventListener('mousemove', function(e) {
+    MOUSEX = e.pageX;
+    return MOUSEY = e.pageY;
+  });
 });
 
 

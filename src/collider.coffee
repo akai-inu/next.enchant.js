@@ -5,7 +5,7 @@ enchant.next.Collider = enchant.Class.create enchant.Entity,
 		@width = @parent.width
 		@height = @parent.height
 
-		if DEBUG
+		if DEBUG? and DEBUG
 			switch @collideType
 				when enchant.next.Collider.TYPE_RECT
 					# 四角形の判定を描画
